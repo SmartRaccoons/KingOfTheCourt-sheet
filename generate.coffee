@@ -61,6 +61,7 @@ window.generate = (players)->
     table[i][players + 3] = """=sum(C#{i + 1}:#{columns[players + 1]}#{i + 1})"""
     # table[i][players + 3] = """=sumif(C#{i + 1}:#{columns[players + 1]}#{i + 1}, ">0", $C$#{players + 2}:$#{columns[players + 1]}$#{players+2}) + sum(C#{i + 1}:#{columns[players + 1]}#{i + 1})"""
   table[1][players + 4] = """=SORT(B2:B#{players + 1}, #{columns[players + 2]}2:#{columns[players + 2]}#{players + 1}, FALSE, #{columns[players + 3]}2:#{columns[players + 3]}#{players + 1}, FALSE)"""
+  table[1][players + 5] = """=SORT(A2:A#{players + 1}, #{columns[players + 2]}2:#{columns[players + 2]}#{players + 1}, FALSE, #{columns[players + 3]}2:#{columns[players + 3]}#{players + 1}, FALSE)"""
   row = players + 1
   # table[row] = ['', 'Win points']
   # for i in [1..players]
