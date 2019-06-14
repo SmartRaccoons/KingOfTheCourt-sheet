@@ -1,0 +1,16 @@
+Press players count and copy paste textarea in google sheets into A1<br />
+<button id='p4'>4</button>
+<button id='p5'>5</button>
+<button id='p6'>6</button>
+<button id='p7'>7</button>
+<button id='p8'>8</button>
+<br />
+<textarea id='result'></textarea>
+<script src='generate.js'></script>
+<script>
+  [4, 5, 6, 7, 8].forEach(function (id) {
+    document.getElementById("p" + id).onclick = function () {
+      document.getElementById("result").value = window.generate(id)
+    }
+  });
+</script>
