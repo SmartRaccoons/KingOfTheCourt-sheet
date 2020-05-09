@@ -1,19 +1,38 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+    <head>
+        <meta content='text/html;charset=utf-8' http-equiv='Content-Type' />
+        <title>Smart Raccoons</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+        <link href='/favicon.ico' type='image/x-icon' rel='icon' />
+        <meta name="Description" content="Standarta Banana teksti, lai nūmotivēt tevi daspīst" />
+        <style>
+            *{padding: 0; margin: 0;}
+            html{height: 100%;}
+            body{font: 22px/26px arial;}
+            button{font-size: 2em;margin:0.5em}
+            textarea{width:30em; height:10em}
+        </style>
+    </head>
+<body>
 Press players count and copy paste textarea in google sheets into A1<br />
 In Sheet fill only name and game results
 
-
-<button id='p4'>4</button>
-<button id='p5'>5</button>
-<button id='p6'>6</button>
-<button id='p7'>7</button>
-<button id='p8'>8</button>
-<br />
+<div id='buttons'></div>
 <textarea id='result'></textarea>
 <script src='generate.js'></script>
 <script>
-  [4, 5, 6, 7, 8].forEach(function (id) {
-    document.getElementById("p" + id).onclick = function () {
-      document.getElementById("result").value = window.generate(id)
-    }
-  });
+  (function () {
+    var buttons = document.getElementById('buttons');
+    Object.keys(window.generate_combinations).forEach(function (id) {
+      var button = document.createElement('button');
+      button.innerHTML = id;
+      button.onclick = function () {
+        document.getElementById("result").value = window.generate(parseInt(id)) ;
+      };
+      buttons.appendChild(button);
+    });
+  })()
 </script>
+</body>
+</html>
