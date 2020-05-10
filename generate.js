@@ -49,14 +49,10 @@
     table[0][players + 5] = 'Order';
     for (i = k = 1, ref1 = players; (1 <= ref1 ? k <= ref1 : k >= ref1); i = 1 <= ref1 ? ++k : --k) {
       table[i] = ['', i];
-      // table[i][i + 1] = ''
-      table[i][players + 2] = `=countif(C${i + 1}:${columns[players + 1]}${i + 1}, "<>0")`;
-      table[i][players + 3] = `=countif(C${i + 1}:${columns[players + 1]}${i + 1}, ">0")`;
       table[i][players + 4] = `=sum(C${i + 1}:${columns[players + 1]}${i + 1})`;
     }
-    // table[i][players + 3] = """=sumif(C#{i + 1}:#{columns[players + 1]}#{i + 1}, ">0", $C$#{players + 2}:$#{columns[players + 1]}$#{players+2}) + sum(C#{i + 1}:#{columns[players + 1]}#{i + 1})"""
-    table[1][players + 5] = `=SORT(B2:B${players + 1}, ${columns[players + 2]}2:${columns[players + 2]}${players + 1}, FALSE, ${columns[players + 3]}2:${columns[players + 3]}${players + 1}, FALSE)`;
-    table[1][players + 6] = `=SORT(A2:A${players + 1}, ${columns[players + 2]}2:${columns[players + 2]}${players + 1}, FALSE, ${columns[players + 3]}2:${columns[players + 3]}${players + 1}, FALSE)`;
+    table[1][players + 5] = `=SORT(B2:B${players + 1}, ${columns[players + 3]}2:${columns[players + 3]}${players + 1}, FALSE, ${columns[players + 4]}2:${columns[players + 4]}${players + 1}, FALSE)`;
+    table[1][players + 6] = `=SORT(A2:A${players + 1}, ${columns[players + 3]}2:${columns[players + 3]}${players + 1}, FALSE, ${columns[players + 4]}2:${columns[players + 4]}${players + 1}, FALSE)`;
     row = players + 1;
     // table[row] = ['', 'Win points']
     // for i in [1..players]
@@ -71,6 +67,14 @@
       table[row][4] = `=CONCATENATE(A${game[0][0] + 1}, " & ", A${game[0][1] + 1}, " VS ", A${game[1][0] + 1}, " & ", A${game[1][1] + 1})`;
       table[game[0][0]][game[0][1] + 1] = table[game[0][1]][game[0][0] + 1] = `=0+C${row + 1}${(table[game[0][0]][game[0][1] + 1] ? table[game[0][0]][game[0][1] + 1].substr(2) : '')}`;
       table[game[1][0]][game[1][1] + 1] = table[game[1][1]][game[1][0] + 1] = `=0-C${row + 1} ${(table[game[1][0]][game[1][1] + 1] ? table[game[1][0]][game[1][1] + 1].substr(2) : '')}`;
+      table[game[0][0]][players + 2] = `=IF(C${row + 1}<>0, 1, 0)${(table[game[0][0]][players + 2] ? `+${table[game[0][0]][players + 2].substr(1)}` : '')}`;
+      table[game[0][0]][players + 3] = `=IF(C${row + 1}>0, 1, 0)${(table[game[0][0]][players + 3] ? `+${table[game[0][0]][players + 3].substr(1)}` : '')}`;
+      table[game[1][0]][players + 2] = `=IF(C${row + 1}<>0, 1, 0)${(table[game[1][0]][players + 2] ? `+${table[game[1][0]][players + 2].substr(1)}` : '')}`;
+      table[game[1][0]][players + 3] = `=IF(C${row + 1}<0, 1, 0)${(table[game[1][0]][players + 3] ? `+${table[game[1][0]][players + 3].substr(1)}` : '')}`;
+      table[game[0][1]][players + 2] = `=IF(C${row + 1}<>0, 1, 0)${(table[game[0][1]][players + 2] ? `+${table[game[0][1]][players + 2].substr(1)}` : '')}`;
+      table[game[0][1]][players + 3] = `=IF(C${row + 1}>0, 1, 0)${(table[game[0][1]][players + 3] ? `+${table[game[0][1]][players + 3].substr(1)}` : '')}`;
+      table[game[1][1]][players + 2] = `=IF(C${row + 1}<>0, 1, 0)${(table[game[1][1]][players + 2] ? `+${table[game[1][1]][players + 2].substr(1)}` : '')}`;
+      table[game[1][1]][players + 3] = `=IF(C${row + 1}<0, 1, 0)${(table[game[1][1]][players + 3] ? `+${table[game[1][1]][players + 3].substr(1)}` : '')}`;
     }
     return table.map(function(row) {
       return row.join("\t");
