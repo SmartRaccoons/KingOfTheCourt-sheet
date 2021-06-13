@@ -22,20 +22,122 @@
           }[player];
         });
       });
-    })
+    }),
+    10: [[[1, 2], [3, 5]], [['A', 'B'], ['C', 'E']], [[1, 3], [4, 5]], [['A', 'C'], ['D', 'E']], [[1, 5], [2, 4]], [['A', 'E'], ['B', 'D']], [[2, 5], [3, 4]], [['B', 'D'], ['C', 'D']], [[1, 4], [2, 3]], [['A', 'D'], ['B', 'C']], [[1, 2], ['C', 'E']], [['A', 'B'], [3, 5]], [[1, 3], ['D', 'E']], [['A', 'C'], [4, 5]], [[1, 5], ['B', 'D']], [['A', 'E'], [2, 4]], [[2, 5], ['C', 'D']], [['B', 'E'], [3, 4]], [[1, 4], ['B', 'C']], [['A', 'D'], [2, 3]]].map(function(teams) {
+      return teams.map(function(team) {
+        return team.map(function(player) {
+          return {
+            '1': 1,
+            '2': 3,
+            '3': 6,
+            '4': 8,
+            '5': 10,
+            'A': 2,
+            'B': 4,
+            'C': 5,
+            'D': 7,
+            'E': 9
+          }[player];
+        });
+      });
+    }),
+    11: [[['A', 'B'], ['C', 'E']], [[1, 3], [2, 5]], [['A', 'C'], ['D', 'E']], [[1, 4], [2, 6]], [['A', 'D'], ['B', 'C']], [[1, 6], [3, 5]], [['A', 'E'], ['B', 'D']], [[4, 6], [2, 5]], [['B', 'E'], ['C', 'D']], [[1, 5], [2, 4]], [['A', 'B'], [1, 2]], [[3, 6], [4, 5]], [['D', 'E'], [5, 6]], [['A', 'C'], [1, 3]], [['A', 'E'], [2, 4]], [['B', 'C'], [3, 5]], [['C', 'D'], [3, 4]], [['B', 'E'], [1, 6]], [['A', 'D'], [1, 5]], [[3, 4], [2, 6]], [['B', 'D'], [2, 3]], [['C', 'E'], [4, 6]]].map(function(teams) {
+      return teams.map(function(team) {
+        return team.map(function(player) {
+          return {
+            '1': 1,
+            '2': 4,
+            '3': 6,
+            '4': 8,
+            '5': 10,
+            '6': 11,
+            'A': 2,
+            'B': 3,
+            'C': 5,
+            'D': 7,
+            'E': 9
+          }[player];
+        });
+      });
+    }),
+    '11-t': [[[10, 11], [8, 9]], [[9, 11], [8, 10]], [[1, 2], [3, 4]], [[1, 7], [2, 6]], [[3, 5], [4, 6]], [[2, 3], [1, 4]], [[7, 11], [9, 10]], [[8, 11], [7, 10]], [[7, 8], [6, 9]], [[5, 9], [3, 11]], [[6, 8], [5, 10]], [[6, 11], [7, 9]], [[1, 3], [2, 4]], [[1, 5], [3, 6]], [[2, 7], [4, 5]], [[1, 8], [3, 7]], [[5, 8], [4, 9]], [[3, 9], [1, 11]], [[1, 6], [2, 5]], [[5, 6], [4, 7]], [[4, 8], [2, 10]], [[6, 10], [5, 11]], [[5, 7], [2, 11]], [[3, 10], [4, 11]], [[4, 10], [6, 7]], [[2, 9], [3, 8]], [[1, 9], [2, 8]], [[1, 10], [4, 7]]]
   };
 
-  // do =>
-  //   combinations = Object.keys(window.generate_combinations)
-  //   combinations.forEach (combination)=>
-  //     window.generate_combinations[combination].map (teams)->
-  //       members = []
-  //       teams.forEach (team)->
-  //         team.forEach (member)->
-  //           if member in members
-  //             alert 'duplicate'
-  //             console.info combination, teams
-  //           members.push member
+  (() => {    // do =>
+    //   combinations = Object.keys(window.generate_combinations)
+    //   combinations.forEach (combination)=>
+    //     window.generate_combinations[combination].map (teams)->
+    //       members = []
+    //       teams.forEach (team)->
+    //         team.forEach (member)->
+    //           if member in members
+    //             alert 'duplicate'
+    //             console.info combination, teams
+    //           members.push member
+    var combinations, sum;
+    sum = function(a) {
+      return a.reduce((function(acc, b) {
+        return acc + (Array.isArray(b) ? sum(b) : b);
+      }), 0);
+    };
+    combinations = Object.keys(window.generate_combinations);
+    return combinations.forEach((combination) => {
+      var comrades, opponents, winrate, winrate_average;
+      console.info('Combination: ', combination);
+      comrades = {};
+      opponents = {};
+      winrate = {};
+      window.generate_combinations[combination].map(function(teams) {
+        return [teams, teams.slice(0).reverse()].forEach(function(teams) {
+          var j, k, len, len1, opponent, player, player2, ref, ref1, results;
+          ref = teams[0];
+          results = [];
+          for (j = 0, len = ref.length; j < len; j++) {
+            player = ref[j];
+            comrades[player] = comrades[player] || [];
+            ref1 = teams[0];
+            for (k = 0, len1 = ref1.length; k < len1; k++) {
+              player2 = ref1[k];
+              if (player2 !== player) {
+                comrades[player].push(player2);
+              }
+            }
+            opponents[player] = opponents[player] || {};
+            winrate[player] = winrate[player] || [];
+            winrate[player].push(Math.round(100 * sum(teams[1]) / sum(teams)));
+            results.push((function() {
+              var l, len2, ref2, results1;
+              ref2 = teams[1];
+              results1 = [];
+              for (l = 0, len2 = ref2.length; l < len2; l++) {
+                opponent = ref2[l];
+                results1.push(opponents[player][opponent] = (opponents[player][opponent] || 0) + 1);
+              }
+              return results1;
+            })());
+          }
+          return results;
+        });
+      });
+      comrades = Object.keys(comrades).reduce(function(acc, player) {
+        return Object.assign(acc, {
+          [player]: comrades[player].sort(function(a, b) {
+            return a - b;
+          })
+        });
+      }, {});
+      winrate_average = Object.keys(winrate).reduce(function(acc, player) {
+        return Object.assign(acc, {
+          [player]: Math.round(sum(winrate[player]) / winrate[player].length)
+        });
+      }, {});
+      console.info('Comrades: ', comrades);
+      console.info('Opponents: ', opponents);
+      console.info('Winrate: ', winrate);
+      return console.info('WinrateAverage: ', winrate_average);
+    });
+  })();
+
   window.generate = function(players) {
     var columns, game, i, j, k, l, len, ref, ref1, ref2, row, table;
     columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
