@@ -28,7 +28,7 @@ In Sheet fill only name and game results
       var button = document.createElement('button');
       button.innerHTML = id;
       button.onclick = function () {
-        document.getElementById("result").value = window.generate(parseInt(id)) ;
+        document.getElementById("result").value = window.generate(id) ;
       };
       buttons.appendChild(button);
     });

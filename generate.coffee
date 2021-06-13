@@ -88,7 +88,7 @@ window.generate_combinations =
     [ [1, 5], [2, 4] ]
     [ ['A', 'E'], ['B', 'D'] ]
     [ [2, 5], [3, 4] ]
-    [ ['B', 'D'], ['C', 'D'] ]
+    [ ['B', 'D'], ['C', 'E'] ]
     [ [1, 4], [2, 3] ]
     [ ['A', 'D'], ['B', 'C'] ]
     [ [1, 2], ['C', 'E'] ]
@@ -155,49 +155,49 @@ window.generate_combinations =
           'D': 7
           'E': 9
          }[player]
-  '11-t': [
-    [ [10,	11],		[8,	9] ]
-    [ [9,	11],		[8,	10] ]
-    [ [1,	2],		[3,	4] ]
-    [ [1,	7],		[2,	6] ]
-    [ [3,	5],		[4,	6] ]
-    [ [2,	3],		[1,	4] ]
-    [ [7,	11],		[9,	10] ]
-    [ [8,	11],		[7,	10] ]
-    [ [7,	8],		[6,	9] ]
-    [ [5,	9],		[3,	11] ]
-    [ [6,	8],		[5,	10] ]
-    [ [6,	11],		[7,	9] ]
-    [ [1,	3],		[2,	4] ]
-    [ [1,	5],		[3,	6] ]
-    [ [2,	7],		[4,	5] ]
-    [ [1,	8],		[3,	7] ]
-    [ [5,	8],		[4,	9] ]
-    [ [3,	9],		[1,	11] ]
-    [ [1,	6],		[2,	5] ]
-    [ [5,	6],		[4,	7] ]
-    [ [4,	8],		[2,	10] ]
-    [ [6,	10],		[5,	11] ]
-    [ [5,	7],		[2,	11] ]
-    [ [3,	10],		[4,	11] ]
-    [ [4,	10],		[6,	7] ]
-    [ [2,	9],		[3,	8] ]
-    [ [1,	9],		[2,	8] ]
-    [ [1,	10],		[4,	7] ]
+  '11-all': [
+    [ [10,	11],		[ 4,	5	] ]
+    [ [9,	11],		[ 5,	8	] ]
+    [ [1,	2],		[ 3,	4	] ]
+    [ [1,	7],		[ 2,	6	] ]
+    [ [3,	5],		[ 4,	6	] ]
+    [ [2,	3],		[ 5,	6	] ]
+    [ [7,	11],		[ 4,	10	] ]
+    [ [8,	11],		[ 3,	6	] ]
+    [ [7,	8],		[ 6,	9	] ]
+    [ [5,	9],		[ 3,	11	] ]
+    [ [6,	8],		[ 5,	10	] ]
+    [ [6,	11],		[ 7,	9	] ]
+    [ [1,	3],		[ 2,	4	] ]
+    [ [1,	5],		[ 7,	10	] ]
+    [ [2,	7],		[ 8,	9	] ]
+    [ [1,	8],		[ 3,	7	] ]
+    [ [8,	10],		[ 4,	9	] ]
+    [ [3,	9],		[ 1,	11	] ]
+    [ [1,	6],		[ 2,	5	] ]
+    [ [1,	4],		[ 5,	7	] ]
+    [ [4,	8],		[ 2,	10	] ]
+    [ [6,	10],		[ 5,	11	] ]
+    [ [4,	7],		[ 2,	11	] ]
+    [ [3,	10],		[ 4,	11	] ]
+    [ [9,	10],		[ 6,	7	] ]
+    [ [2,	9],		[ 3,	8	] ]
+    [ [1,	9],		[ 2,	8	] ]
+    [ [1,	10],		[ 4,	7	] ]
   ]
 
 
-# do =>
-#   combinations = Object.keys(window.generate_combinations)
-#   combinations.forEach (combination)=>
-#     window.generate_combinations[combination].map (teams)->
-#       members = []
-#       teams.forEach (team)->
-#         team.forEach (member)->
-#           if member in members
-#             alert 'duplicate'
-#             console.info combination, teams
-#           members.push member
+do =>
+  combinations = Object.keys(window.generate_combinations)
+  combinations.forEach (combination)=>
+    window.generate_combinations[combination].map (teams)->
+      members = []
+      teams.forEach (team)->
+        team.forEach (member)->
+          if member in members
+            alert 'duplicate'
+            console.info 'duplicate', combination, teams
+          members.push member
 do =>
   sum = (a)->
     a.reduce ((acc, b)-> acc + if Array.isArray(b) then sum(b) else b ), 0
@@ -235,7 +235,12 @@ do =>
     console.info 'WinrateAverage: ', winrate_average
 
 
-window.generate = (players)->
+window.generate = (combination)->
+  max = (a)-> a.reduce ((acc, b)->
+    m = if Array.isArray(b) then max(b) else b
+    if m > acc then m else acc
+  ), 0
+  players = max(window.generate_combinations[combination])
   columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
   table = [['name', 'nr']]
   for i in [1..players]
@@ -255,7 +260,7 @@ window.generate = (players)->
   #   table[players + 1][i + 1] = 1000
   # row++
   table[row] = ['Nr', 'Game', 'Result']
-  for game, i in window.generate_combinations[players]
+  for game, i in window.generate_combinations[combination]
     row++
     table[row] = [i + 1, "#{game[0].join('&')} VS #{game[1].join('&')}"]
     table[row][4] = """=CONCATENATE(A#{game[0][0] + 1}, " & ", A#{game[0][1] + 1}, " VS ", A#{game[1][0] + 1}, " & ", A#{game[1][1] + 1})"""
