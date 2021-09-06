@@ -67,11 +67,12 @@ validate = (games, silent = false)->
     if parseInt(id) > 1 and winrate_average[parseInt(id) - 1] < winrate_average[parseInt(id) ]
       return false
   for player, opponents_all of opponents
-    # for z in [1..9]
-    #   if parseInt(player) isnt z and !opponents_all[z]
-    #     return false
+    for z in [1..9]
+      if parseInt(player) isnt z and !opponents_all[z]
+        return false
     for opponent, played of opponents_all
-      if played isnt 2
+      # if played isnt 2
+      if played > 3
         return false
   return true
 
