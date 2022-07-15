@@ -11,11 +11,11 @@
             html{height: 100%;}
             body{font: 22px/26px arial;}
             button{font-size: 2em;margin:0.5em}
-            textarea{width:30em; height:10em}
+            textarea{width:80%; height:20em}
         </style>
     </head>
 <body>
-Press players count and copy paste textarea in google sheets into A1<br />
+Press players count and copy paste textarea in google sheets A1 cell<br />
 In Sheet fill only name and game results
 
 <div id='buttons'></div>
@@ -28,7 +28,7 @@ In Sheet fill only name and game results
       var button = document.createElement('button');
       button.innerHTML = id;
       button.onclick = function () {
-        document.getElementById("result").value = window.generate(id) ;
+        document.getElementById("result").value = window.generate(id, window.location.href.indexOf("lang=lg") ? 'lg' : 'en') ;
       };
       buttons.appendChild(button);
     });

@@ -30,6 +30,19 @@ window.generate_combinations =
     [[3, 6], [4, 5]]
     [[1, 4], [2, 5]]
   ]
+  '7-all': [
+    [[1, 3], [6, 7]]
+    [[2, 4], [5, 7]]
+    [[1, 6], [4, 7]]
+    [[1, 2], [4, 5]]
+    [[3, 4], [5, 6]]
+    [[1, 5], [2, 6]]
+    [[4, 6], [3, 7]]
+    [[2, 7], [3, 6]]
+    [[1, 7], [3, 5]]
+    [[1, 4], [2, 3]]
+    [[4, 7], [2, 5]]
+  ]
   8: [
     [[1, 3], [6, 8]]
     [[2, 4], [5, 7]]
@@ -80,43 +93,24 @@ window.generate_combinations =
           'D': 7
          }[player]
   '9-all': [
-    # [ [1,	2],	[3,	9] ]
-    # [ [7, 9], [5,	8] ]
-    # [ [1,	7], [6, 9] ]
-    # [ [2, 8], [4, 6] ]
-    # [ [2,	3], [5, 6] ]
-    # [ [3, 6], [4, 9] ]
-    # [ [7,	8], [2, 6] ]
-    # [ [6,	8], [4, 5] ]
-    # [ [1,	3], [2, 4] ]
-    # [ [1,	5], [4,	8] ]
-    # [ [2,	7], [3, 4] ]
-    # [ [1,	8], [3, 7] ]
-    # [ [8, 9], [4,	7] ]
-    # [ [1,	6], [2, 5] ]
-    # [ [1,	4], [5, 7] ]
-    # [ [6, 7], [5, 9] ]
-    # [ [2,	9], [3, 8] ]
-    # [ [1,	9], [3,	5] ]
-
-    [ [ 4, 8 ], [ 6, 7 ] ],
-    [ [ 1, 9 ], [ 2, 6 ] ],
-    [ [ 6, 9 ], [ 4, 5 ] ],
-    [ [ 7, 8 ], [ 2, 9 ] ],
-    [ [ 4, 6 ], [ 2, 3 ] ],
-    [ [ 2, 4 ], [ 3, 7 ] ],
-    [ [ 7, 9 ], [ 3, 6 ] ],
-    [ [ 5, 7 ], [ 1, 6 ] ],
-    [ [ 3, 8 ], [ 2, 5 ] ],
-    [ [ 1, 3 ], [ 8, 9 ] ],
-    [ [ 2, 8 ], [ 1, 4 ] ],
-    [ [ 5, 8 ], [ 3, 9 ] ],
-    [ [ 6, 8 ], [ 4, 9 ] ],
-    [ [ 1, 7 ], [ 5, 9 ] ],
-    [ [ 1, 8 ], [ 5, 6 ] ],
-    [ [ 3, 4 ], [ 1, 5 ] ],
-    [ [ 3, 5 ], [ 2, 7 ] ],
+    [ [ 4, 8 ], [ 6, 7 ] ]
+    [ [ 1, 9 ], [ 2, 6 ] ]
+    [ [ 6, 9 ], [ 4, 5 ] ]
+    [ [ 7, 8 ], [ 2, 9 ] ]
+    [ [ 4, 6 ], [ 2, 3 ] ]
+    [ [ 2, 4 ], [ 3, 7 ] ]
+    [ [ 7, 9 ], [ 3, 6 ] ]
+    [ [ 5, 7 ], [ 1, 6 ] ]
+    [ [ 3, 8 ], [ 2, 5 ] ]
+    [ [ 2, 8 ], [ 1, 4 ] ]
+    [ [ 6, 8 ], [ 4, 9 ] ]
+    [ [ 1, 7 ], [ 5, 9 ] ]
+    [ [ 1, 8 ], [ 5, 6 ] ]
+    [ [ 3, 4 ], [ 1, 5 ] ]
+    [ [ 1, 3 ], [ 8, 9 ] ]
+    [ [ 3, 5 ], [ 2, 7 ] ]
     [ [ 1, 2 ], [ 4, 7 ] ]
+    [ [ 5, 8 ], [ 3, 9 ] ]
   ]
 
   10: [
@@ -299,48 +293,83 @@ do =>
     console.info 'WinrateAverage: ', winrate_average
 
 
-window.generate = (combination)->
+window.generate = (combination, language = 'en')->
+  _l_strings =
+    en:
+      Name: 'Name'
+      Left: 'Left'
+      Played: 'Played'
+      Wins: 'Wins'
+      Points: 'Points'
+      Top: 'Top'
+      Nr: 'Nr'
+      Game: 'Game'
+      Result: 'Result'
+    lg:
+      Name: 'Vuords'
+      Left: 'Palyka'
+      Played: 'Nūspieļuots'
+      Wins: 'Uzvarys'
+      Points: 'Punkti'
+      Top: 'Tops'
+      Nr: 'Nr'
+      Game: 'Spēle'
+      Result: 'Rezultats'
+  _l = (str)-> _l_strings[language][str] or str
+
+
   max = (a)-> a.reduce ((acc, b)->
     m = if Array.isArray(b) then max(b) else b
     if m > acc then m else acc
   ), 0
   players = max(window.generate_combinations[combination])
   columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-  table = [['name', 'nr']]
+  table = [[_l('Name'), _l('Nr')]]
   for i in [1..players]
     table[0][i + 1] = i
-  table[0][players + 2] = 'Games'
-  table[0][players + 3] = 'Wins'
-  table[0][players + 4] = 'Points'
-  table[0][players + 5] = 'Order'
+  table[0][players + 2] = _l 'Left'
+  table[0][players + 3] = _l 'Played'
+  table[0][players + 4] = _l 'Wins'
+  table[0][players + 5] = _l 'Points'
+  table[0][players + 6] = _l 'Top'
+  table[0][players + 7] = "#{_l('Top')} (#{_l('Wins')}) "
+  table[0][players + 8] = "#{_l('Top')} (#{_l('Points')}) "
   for i in [1..players]
     table[i] = ['', i]
-    table[i][players + 4] = """=sum(C#{i + 1}:#{columns[players + 1]}#{i + 1})"""
-  table[1][players + 5] = """=SORT(B2:B#{players + 1}, #{columns[players + 3]}2:#{columns[players + 3]}#{players + 1}, FALSE, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE)"""
-  table[1][players + 6] = """=SORT(A2:A#{players + 1}, #{columns[players + 3]}2:#{columns[players + 3]}#{players + 1}, FALSE, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE)"""
+    table[i][players + 4] = """=COUNTIF(C#{i + 1}:#{columns[players + 1]}#{i + 1}, ">0")"""
+    table[i][players + 5] = """=sum(C#{i + 1}:#{columns[players + 1]}#{i + 1})"""
+  table[1][players + 6] = """=SORT(A2:A#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
+  table[1][players + 7] = """=SORT(#{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
+  table[1][players + 8] = """=SORT(#{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
   row = players + 1
-  # table[row] = ['', 'Win points']
-  # for i in [1..players]
-  #   table[players + 1][i + 1] = 1000
-  # row++
-  table[row] = ['Nr', 'Game', 'Result']
+
+  table[row] = [ _l('Nr'), _l('Game'), _l('Result') ]
   for game, i in window.generate_combinations[combination]
     row++
-    table[row] = [i + 1, "#{game[0].join('&')} VS #{game[1].join('&')}"]
-    table[row][4] = """=CONCATENATE(A#{game[0][0] + 1}, " & ", A#{game[0][1] + 1}, " VS ", A#{game[1][0] + 1}, " & ", A#{game[1][1] + 1})"""
-    table[game[0][0]][game[0][1] + 1] = table[game[0][1]][game[0][0] + 1] = "=0+C#{row + 1}#{if table[game[0][0]][game[0][1] + 1] then table[game[0][0]][game[0][1] + 1].substr(2) else ''}"
-    table[game[1][0]][game[1][1] + 1] = table[game[1][1]][game[1][0] + 1] = """=0-C#{row + 1} #{if table[game[1][0]][game[1][1] + 1] then table[game[1][0]][game[1][1] + 1].substr(2) else ''}"""
+    table[row] = [i + 1, "#{game[0].join('&')} vs #{game[1].join('&')}"]
+    table[row][4] = """=CONCATENATE(A#{game[0][0] + 1}, " & ", A#{game[0][1] + 1}, " vs ", A#{game[1][0] + 1}, " & ", A#{game[1][1] + 1})"""
 
-    table[game[0][0]][players + 2] = "=IF(C#{row + 1}<>0, 1, 0)#{if table[game[0][0]][players + 2] then "+#{table[game[0][0]][players + 2].substr(1)}" else ''}"
-    table[game[0][0]][players + 3] = "=IF(C#{row + 1}>0, 1, 0)#{if table[game[0][0]][players + 3] then "+#{table[game[0][0]][players + 3].substr(1)}" else ''}"
-    table[game[1][0]][players + 2] = "=IF(C#{row + 1}<>0, 1, 0)#{if table[game[1][0]][players + 2] then "+#{table[game[1][0]][players + 2].substr(1)}" else ''}"
-    table[game[1][0]][players + 3] = "=IF(C#{row + 1}<0, 1, 0)#{if table[game[1][0]][players + 3] then "+#{table[game[1][0]][players + 3].substr(1)}" else ''}"
+    cell_pro = (value, sign = '+')->
+      cell = "#{sign}C#{row + 1}"
+      if !value
+        return "=0#{cell}"
+      cell_prev = value.substr(2)
+      return "=0+IF(#{cell}>#{cell_prev}, #{cell}, #{cell_prev})"
+    table[game[0][0]][game[0][1] + 1] = table[game[0][1]][game[0][0] + 1] = cell_pro( table[game[0][0]][game[0][1] + 1] )
+    table[game[1][0]][game[1][1] + 1] = table[game[1][1]][game[1][0] + 1] = cell_pro( table[game[1][0]][game[1][1] + 1], '-' )
 
-    table[game[0][1]][players + 2] = "=IF(C#{row + 1}<>0, 1, 0)#{if table[game[0][1]][players + 2] then "+#{table[game[0][1]][players + 2].substr(1)}" else ''}"
-    table[game[0][1]][players + 3] = "=IF(C#{row + 1}>0, 1, 0)#{if table[game[0][1]][players + 3] then "+#{table[game[0][1]][players + 3].substr(1)}" else ''}"
-    table[game[1][1]][players + 2] = "=IF(C#{row + 1}<>0, 1, 0)#{if table[game[1][1]][players + 2] then "+#{table[game[1][1]][players + 2].substr(1)}" else ''}"
-    table[game[1][1]][players + 3] = "=IF(C#{row + 1}<0, 1, 0)#{if table[game[1][1]][players + 3] then "+#{table[game[1][1]][players + 3].substr(1)}" else ''}"
+    for team in [0, 1]
+      for player in [0, 1]
+        table[game[team][player]][players + 2] = "=IF(C#{row + 1}<>0, 0, 1)#{if table[game[team][player]][players + 2] then "+#{table[game[team][player]][players + 2].substr(1)}" else ''}"
+        table[game[team][player]][players + 3] = "=IF(C#{row + 1}<>0, 1, 0)#{if table[game[team][player]][players + 3] then "+#{table[game[team][player]][players + 3].substr(1)}" else ''}"
 
+  table[row + 1] = [
+    do =>
+      {
+        '7-all': '4+7 pair have additional game together (the last one) - in the table we take only one game in to count (better one)'
+        '11-all': '4+7 pair have additional game together (the last one) - in the table we take only one game in to count (better one)'
+      }[combination] or ''
+  ]
 
   return table.map( (row)->
     row.join "\t"
