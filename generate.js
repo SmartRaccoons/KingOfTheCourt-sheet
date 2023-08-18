@@ -26,7 +26,28 @@
         });
       });
     }),
-    '9-all': [[[4, 8], [6, 7]], [[1, 9], [2, 6]], [[6, 9], [4, 5]], [[7, 8], [2, 9]], [[4, 6], [2, 3]], [[2, 4], [3, 7]], [[7, 9], [3, 6]], [[5, 7], [1, 6]], [[3, 8], [2, 5]], [[2, 8], [1, 4]], [[6, 8], [4, 9]], [[1, 7], [5, 9]], [[1, 8], [5, 6]], [[3, 4], [1, 5]], [[1, 3], [8, 9]], [[3, 5], [2, 7]], [[1, 2], [4, 7]], [[5, 8], [3, 9]]],
+    // '9-all-Valentoros': [
+    //   [ [ 1, 4 ], [ 2, 8 ] ]
+    //   [ [ 4, 5 ], [ 6, 9 ] ]
+    //   [ [ 7, 8 ], [ 2, 9 ] ]
+    //   [ [ 5, 7 ], [ 1, 6 ] ]
+    //   [ [ 2, 4 ], [ 3, 7 ] ]
+    //   [ [ 1, 3 ], [ 8, 9 ] ]
+    //   [ [ 2, 5 ], [ 3, 8 ] ]
+    //   [ [ 4, 8 ], [ 6, 7 ] ]
+    //   [ [ 1, 9 ], [ 2, 6 ] ]
+    //   [ [ 3, 4 ], [ 1, 5 ] ]
+    //   [ [ 7, 9 ], [ 3, 6 ] ]
+    //   [ [ 1, 2 ], [ 4, 7 ] ]
+    //   [ [ 4, 6 ], [ 2, 3 ] ]
+    //   [ [ 5, 8 ], [ 3, 9 ] ]
+    //   [ [ 1, 7 ], [ 5, 9 ] ]
+    //   [ [ 3, 5 ], [ 2, 7 ] ]
+    //   [ [ 6, 8 ], [ 4, 9 ] ]
+    //   [ [ 1, 8 ], [ 5, 6 ] ]
+
+    // ]
+    '9-all-Tuoma': [[[1, 4], [2, 8]], [[4, 5], [6, 9]], [[7, 8], [2, 9]], [[5, 7], [1, 6]], [[2, 4], [3, 7]], [[1, 3], [8, 9]], [[2, 5], [3, 8]], [[4, 8], [6, 7]], [[1, 9], [2, 6]], [[3, 4], [1, 5]], [[7, 9], [3, 6]], [[1, 2], [4, 7]], [[4, 6], [2, 3]], [[5, 8], [3, 9]], [[1, 7], [5, 9]], [[3, 5], [2, 7]], [[6, 8], [4, 9]], [[1, 8], [5, 6]]],
     10: [[[1, 2], [3, 5]], [['A', 'B'], ['C', 'E']], [[1, 3], [4, 5]], [['A', 'C'], ['D', 'E']], [[1, 5], [2, 4]], [['A', 'E'], ['B', 'D']], [[2, 5], [3, 4]], [['B', 'D'], ['C', 'E']], [[1, 4], [2, 3]], [['A', 'D'], ['B', 'C']], [[1, 2], ['C', 'E']], [['A', 'B'], [3, 5]], [[1, 3], ['D', 'E']], [['A', 'C'], [4, 5]], [[1, 5], ['B', 'D']], [['A', 'E'], [2, 4]], [[2, 5], ['C', 'D']], [['B', 'E'], [3, 4]], [[1, 4], ['B', 'C']], [['A', 'D'], [2, 3]]].map(function(teams) {
       return teams.map(function(team) {
         return team.map(function(player) {
@@ -228,8 +249,9 @@
     table[0][players + 4] = _l('Wins');
     table[0][players + 5] = _l('Points');
     table[0][players + 6] = _l('Top');
-    table[0][players + 7] = `${_l('Top')} (${_l('Wins')}) `;
-    table[0][players + 8] = `${_l('Top')} (${_l('Points')}) `;
+    table[0][players + 7] = `${_l('Wins')}`;
+    table[0][players + 8] = `${_l('Points')}`;
+    table[0][players + 9] = `${_l('Left')}`;
     for (i = k = 1, ref1 = players; (1 <= ref1 ? k <= ref1 : k >= ref1); i = 1 <= ref1 ? ++k : --k) {
       table[i] = ['', i];
       table[i][players + 4] = `=COUNTIF(C${i + 1}:${columns[players + 1]}${i + 1}, ">0")`;
@@ -238,6 +260,7 @@
     table[1][players + 6] = `=SORT(A2:A${players + 1}, ${columns[players + 4]}2:${columns[players + 4]}${players + 1}, FALSE, ${columns[players + 5]}2:${columns[players + 5]}${players + 1}, FALSE)`;
     table[1][players + 7] = `=SORT(${columns[players + 4]}2:${columns[players + 4]}${players + 1}, ${columns[players + 4]}2:${columns[players + 4]}${players + 1}, FALSE, ${columns[players + 5]}2:${columns[players + 5]}${players + 1}, FALSE)`;
     table[1][players + 8] = `=SORT(${columns[players + 5]}2:${columns[players + 5]}${players + 1}, ${columns[players + 4]}2:${columns[players + 4]}${players + 1}, FALSE, ${columns[players + 5]}2:${columns[players + 5]}${players + 1}, FALSE)`;
+    table[1][players + 9] = `=SORT(${columns[players + 3]}2:${columns[players + 3]}${players + 1}, ${columns[players + 4]}2:${columns[players + 4]}${players + 1}, FALSE, ${columns[players + 5]}2:${columns[players + 5]}${players + 1}, FALSE)`;
     row = players + 1;
     table[row] = [_l('Nr'), _l('Game'), _l('Result')];
     ref2 = window.generate_combinations[combination];
