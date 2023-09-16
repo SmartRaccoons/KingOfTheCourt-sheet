@@ -390,7 +390,7 @@ window.generate = (combination, language = 'en')->
   table[1][players + 6] = """=SORT(A2:A#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
   table[1][players + 7] = """=SORT(#{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
   table[1][players + 8] = """=SORT(#{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
-  table[1][players + 9] = """=SORT(#{columns[players + 3]}2:#{columns[players + 3]}#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
+  table[1][players + 9] = """=SORT(#{columns[players + 2]}2:#{columns[players + 2]}#{players + 1}, #{columns[players + 4]}2:#{columns[players + 4]}#{players + 1}, FALSE, #{columns[players + 5]}2:#{columns[players + 5]}#{players + 1}, FALSE)"""
   row = players + 1
 
   table[row] = [ _l('Nr'), _l('Game'), _l('Result') ]
